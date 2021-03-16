@@ -1,0 +1,88 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body{
+	background-color: #24252a;
+	font-family: 'Cairo';
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #222222;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: #24252a; 
+  color: whited; 
+  border: 2px solid #AB8700;
+}
+
+.button2 {
+  background-color: #24252a; 
+  color: white; 
+  border: 2px solid #AB8700;
+}
+
+.button3 {
+  background-color: #24252a; 
+  color: white; 
+  border: 2px solid #AB8700;
+}
+
+.button1:hover {
+  background-color:GREEN
+}
+
+.button2:hover {
+  background-color:GREEN
+}
+
+.button3:hover {
+  background-color:GREEN
+}
+
+
+textarea {
+  background: #24252a;
+  width:801px;
+  height:289px;
+  border:1px solid #AB8700;
+  background-color:#1b1c1f;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 3px;
+  color:white
+}
+
