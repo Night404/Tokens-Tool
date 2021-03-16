@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tokens Tool</title>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Free Tokens Tool" />
+    <meta name="keywords" content="Tokens Tool" />
+    <meta name="author" content="Yousuf,Master" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script
+      data-ad-client="ca-pub-4256154579133190"
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+    ></script>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <center>
+      <button onclick="set()" class="button button1">Set Tokens</button>
+      <button onclick="join()" class="button button2">Join Servers</button>
+      <button onclick="send()" class="button button3">Send Messages</button>
+
+      <br /><br />
+      <textarea disabled id="a7a"></textarea>
+
+      <br /><br /><br />
+      <textarea id="tokens1" style="width:500px; height:100px;"></textarea>
+      <br /><br /><br />
+
+      <script src="https://hcaptcha.com/1/api.js" async defer></script>
+      <div
+        hidden
+        class="h-captcha"
+        id="hcaptcha"
+        data-sitekey="e46bdb57-621f-4386-b8fc-23a2e92189f7"
+        data-theme="dark"
+        data-error-callback="onError"
+      ></div>
+      <div
+        hidden
+        class="h-captcha"
+        id="hcaptcha2"
+        data-sitekey="e46bdb57-621f-4386-b8fc-23a2e92189f7"
+        data-theme="dark"
+        data-error-callback="onError"
+      ></div>
+      <div
+        hidden
+        class="h-captcha"
+        id="hcaptcha3"
+        data-sitekey="e46bdb57-621f-4386-b8fc-23a2e92189f7"
+        data-theme="dark"
+        data-error-callback="onError"
+      ></div>
+    </center>
+  </body>
+  <script>
+    let code;
+    setInterval(() => {
+      code = hcaptcha.getResponse();
+      if (!hcaptcha.getResponse()) code = null;
+    }, 2000);
+    let code2;
+    setInterval(() => {
+      code2 = hcaptcha2.getResponse();
+      if (!hcaptcha.getResponse()) code = null;
+    }, 2000);
+    let code3;
+    setInterval(() => {
+      code3 = hcaptcha3.getResponse();
+      if (!hcaptcha.getResponse()) code = null;
+    }, 2000);
+    /*swal('Help', '- Enter in chat all tokens and click to set tokens..\n- select one "join servers" or "send messages"', 'info')*/
+    let me = {};
+    fetch("/api/data", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      referrerPolicy: "no-referrer"
+    }).then(async one => {
+      let json = await one.json();
+      me = { use: json.data.use };
+      names.innerHTML = `This is tokens tool made by Còndór`;
+    });
+    var names = document.getElementById("a7a");
+    var capt = document.querySelector("#hcaptcha");
+
+    var x = document.getElementById("hcaptcha");
+    var x2 = document.getElementById("hcaptcha2");
+    var x3 = document.getElementById("hcaptcha3");
+    //includes
+    let tokens = [];
+    let tokens2 = [];
+    /*
+setInterval(() => {
+if(code){
+x.setAttribute('hidden', "")
+}
+}, 0)*/
+    function set() {
+      capt.removeAttribute("hidden");
+
+      if (!code) return swal("Error", "Please captcha you not a bot!", "error");
+      if (!me) return swal("Error", "Waiting insert your data", "erorr");
+      var myInputs = document.getElementById("a7a").value;
+      var tokenfunc = document.getElementById("tokens1").value;
+
+      if (!tokenfunc) {
+        names.innerHTML = names.innerHTML + `\nDone Remove All Data`;
+        tokens = [];
+        tokens2 = [];
+        return swal("success", "Done Reset All Data", "success");
+      }
+
+      if (tokenfunc === "/help") {
+        tokens1.value = "";
+        return (names.innerHTML =
+          names.innerHTML +
+          `\nCommands:
+/clear - To Clear Log
+/reset - to delete all tokens
+`);
+      }
+      if (tokenfunc === "/clear") {
+        tokens1.value = "";
+        return (names.innerHTML = `This is tokens tool made by Còndór`);
+      }
+      if (tokenfunc === "/reset") {
+        tokens = [];
+        tokens2 = [];
+        names.innerHTML = names.innerHTML + `\nDone Reset All Data`;
+        tokens1.value = "";
+        return swal("success", "Done Reset All data", "success");
+      }
+
+      let buf = tokenfunc;
+      let string = buf.toString("utf8");
+      if (!string) {
+        tokens = [];
+        names.innerHTML = names.innerHTML + `\nDone Reset All Data`;
+        return swal("success", "Done Reset All data", "success");
+      }
+      let tokensadd = [];
+      var includesa = false;
+      for (let acString of string.split("\n")) {
+        try {
+          tokensadd.unshift({ token: acString });
+          C++;
+        } catch {}
+      }
+
+      for (const data of tokensadd) {
+        if (tokens2.includes(data.token)) includesa = true;
+      }
+      if (includesa) return swal("Error", "Same Tokens", "error");
+      let C = 1;
+      for (let acString of string.split("\n")) {
+        try {
+          tokens.unshift({ token: acString });
+          tokens2.unshift(acString);
+          C++;
+        } catch {}
+      }
+
+      let msg = ``;
+      for (const data of tokensadd) {
+        msg = msg + `\n${data.token}`;
+      }
+
+      names.innerHTML = names.innerHTML + `\nDone Add: ${msg}`;
+      swal("success", "Done Add " + tokensadd.length + " Token!", "success");
+
+      tokens1.value = "";
+    }
+
+    function join() {
+      if (tokens.length < 1)
+        return swal("Error", "No Tokens To Edit!", "error");
+      if (!code) {
+        swal("Error", "Please captcha you not a bot!", "error");
+        return capt.removeAttribute("hidden");
+      }
+
+      swal("Enter Code Invite!", {
+        content: "input"
+      }).then(invite => {
+        if (!invite) {
+          tokens1.value = "";
+          names.innerHTML = names.innerHTML + `\nFailed To Join!`;
+          return swal("Error", "Enter code!", "error");
+        }
+        let link = invite
+          ? invite
+              .split("https://")
+              .join("")
+              .split("http://")
+              .join("")
+              .split("discord.gg/")
+              .join("")
+              .split("discordapp.gg/")
+              .join("")
+          : null;
+
+        fetch("/api/join", {
+          method: "post",
+          body: JSON.stringify({ tokens: tokens, link: link, captcha: code }),
+          headers: { "Content-Type": "application/json" },
+          referrerPolicy: "no-referrer"
+        }).then(async one => {
+          let json = await one.json();
+          if (json.message === "captcha wrong") {
+            code = null;
+            swal("Error", "Please captcha you not a bot!", "error");
+            return capt.removeAttribute("hidden");
+          }
+          swal("success", json.message, "success");
+          tokens1.value = "";
+          names.innerHTML = names.innerHTML + `\nDone Join Server!`;
+        });
+      });
+    } //capt
+    function send() {
+      if (tokens.length < 1)
+        return swal("Error", "No Tokens To Edit!", "error");
+      if (!code) {
+        swal("Error", "Please captcha you not a bot!", "error");
+        return capt.removeAttribute("hidden");
+      }
+
+      swal("Enter Message!", {
+        content: "input"
+      }).then(msg => {
+        if (!msg) msg = "Hi everyone";
+        swal("Enter Room ID!", {
+          content: "input"
+        }).then(room => {
+          if (!room) {
+            tokens1.value = "";
+            names.innerHTML = names.innerHTML + `\nFailed To Message!`;
+            return swal("Error", "Enter ID Room!", "error");
+          }
+          fetch("/api/message", {
+            method: "post",
+            body: JSON.stringify({
+              tokens: tokens,
+              message: msg,
+              room: room,
+              captcha: code
+            }),
+            headers: { "Content-Type": "application/json" },
+            referrerPolicy: "no-referrer"
+          }).then(async one => {
+            let json = await one.json();
+            if (json.message === "captcha wrong") {
+              code = null;
+              swal("Error", "Please captcha you not a bot!", "error");
+              return capt2.removeAttribute("hidden");
+            }
+            swal("success", json.message, "success");
+            tokens1.value = "";
+            names.innerHTML = names.innerHTML + `\nDone Message!`;
+          });
+        });
+      });
+    }
+  </script>
+</html>
